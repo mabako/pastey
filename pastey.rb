@@ -18,9 +18,7 @@ get '/:paste' do
 end
 
 post '/' do
-  # read this as json
-  request.body.rewind
-  data = request.body.read
+  data = params[:data]
 
   # only relevant if there's some content
   pass if data.nil? || data.length == 0
