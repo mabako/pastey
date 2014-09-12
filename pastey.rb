@@ -10,7 +10,7 @@ end
 
 # Retrieve any paste by ID
 get '/:paste' do
-  paste = REDIS.get(params[:paste])
+  paste = REDIS.get("pastey_#{params[:paste]}")
 
   # some random unknown paste. not our problem, just drops to the not_found
   # handler usually
@@ -29,8 +29,8 @@ post '/' do
 
   # generate some random 4 char id and persist it for a while
   id = rand(36**4).to_s(36)
-  REDIS.set(id, data)
-  REDIS.expire(id, EXPIRE_IN)
+  REDIS.set("pastey_#{id}", data)
+  REDIS.expire("pastey_#{id}", EXPIRE_IN)
 
   # if we have 'redirect' set to true, just redirect to the page
   if params[:redirect]
