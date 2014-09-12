@@ -1,0 +1,45 @@
+doctype html
+html
+  head
+    title Pastebin
+    meta name='robots' content='noindex, nofollow'
+  body
+    css:
+      body { margin: 0; padding: 0; }
+      #backdrop { position: fixed; top: 8px; left: 8px; right: 8px; bottom: 8px; background: #fff; }
+      #data { height: 100%; max-width: 100%;  width: 100%; padding: 0; margin: 0 auto; border: 0; resize: none; border-radius: 0; outline: none; display: block; }
+
+    form action='/' method='POST' id='form'
+      #backdrop
+        input type='hidden' name='redirect' value='fuck yeah'
+        textarea id='data' name='data' placeholder='Hit CTRL+Enter to save.'
+
+    javascript:
+      document.getElementById('data').addEventListener('keydown',function(e) {
+        if(e.keyCode === 9) { // tab was pressed
+          // get caret position/selection
+          var start = this.selectionStart;
+          var end = this.selectionEnd;
+
+          var target = e.target;
+          var value = target.value;
+
+          // set textarea value to: text before caret + tab + text after caret
+          target.value = value.substring(0, start)
+                      + "\t"
+                      + value.substring(end);
+
+          // put caret at right position again (add one for the tab)
+          this.selectionStart = this.selectionEnd = start + 1;
+
+          // prevent the focus lose
+          e.preventDefault();
+        }
+        else if(e.keyCode == 13 && e.ctrlKey) // submit form
+        {
+          document.getElementById('form').submit();
+
+          // whatever happens.
+          e.preventDefault();
+        }
+      },false);
