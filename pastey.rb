@@ -42,10 +42,6 @@ post '/' do
 end
 
 # render a simple form
-get '/' do
-  slim :zen
-end
-
 not_found do
-  halt 404, ''
+  slim :zen
 end
